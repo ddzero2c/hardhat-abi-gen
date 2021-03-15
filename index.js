@@ -51,6 +51,8 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
 
     const { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
 
+    console.log(`Exported ${ contractName }`);
+
     if (!abi.length) continue;
 
     const destination = path.resolve(
@@ -64,5 +66,61 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     }
 
     fs.writeFileSync(destination, `${ JSON.stringify(abi, null, config.spacing) }\n`, { flag: 'w' });
+
+    const abiJs = path.resolve(
+      outputDirectory,
+      config.flat ? '' : sourceName,
+      contractName
+    ) + '.js';
+
+    fs.writeFileSync(abiJs, `export default ${ JSON.stringify(abi, null, config.spacing) };\n`, { flag: 'w' });
+
+    const contractJs = path.resolve(
+      outputDirectory,
+      config.flat ? '' : sourceName,
+      contractName
+    ) + '.contract.js';
+
+    let content = `
+import {Contract} from 'ethers';
+import ContractSettings from '../../contractSettings';
+import abi from '../../lib/abis/localhost/${contractName}';
+
+function ${contractName}(contractSettings) {
+  this.contractSettings = contractSettings || new ContractSettings();
+
+  this.contract = new Contract(
+    this.contractSettings.addressList['${contractName}'],
+    abi,
+    this.contractSettings.signer || this.contractSettings.provider
+  );
+    
+  `;
+
+    abi.map(item => {
+      if (item['type']  == 'function') {
+        content += `
+  this.${item['name']} = async (`;
+        item['inputs'].forEach( (input) => {
+          if (input['name']) content += `${input['name']}, `;
+        });
+        content += `txParams) => {
+    txParams = txParams || {};
+    return await this.contract.${item['name']}(`;
+        item['inputs'].forEach( (input) => {
+          if (input['name']) content += `${input['name']}, `;
+        });
+        content += `txParams);
+  };
+        `;
+      }
+    });
+
+    content += `
+}
+export default ${contractName};`;
+
+    fs.writeFileSync(contractJs, content, { flag: 'w' });
+
   }
 });
