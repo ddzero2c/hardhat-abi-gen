@@ -5,7 +5,7 @@ Export Solidity smart contract ABIs and generate javascript objects on compilati
 ## Installation
 
 ```bash
-yarn add --dev hardhat-abi-gen
+yarn add --dev @symblox/hardhat-abi-gen
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ yarn add --dev hardhat-abi-gen
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-abi-gen');
+require('@symblox/hardhat-abi-gen');
 ```
 
 Add configuration under the `abiExporter` key:
