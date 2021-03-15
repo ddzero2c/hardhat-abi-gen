@@ -1,13 +1,11 @@
-# Hardhat ABI Exporter
+# Hardhat ABI Generator
 
-Export Ethereum smart contract ABIs on compilation via Hardhat.
-
-> Versions of this plugin prior to `2.0.0` were released as `buidler-abi-exporter`.
+Export Solidity smart contract ABIs and generate javascript objects on compilation via Hardhat. 
 
 ## Installation
 
 ```bash
-yarn add --dev hardhat-abi-exporter
+yarn add --dev hardhat-abi-gen
 ```
 
 ## Usage
@@ -15,7 +13,7 @@ yarn add --dev hardhat-abi-exporter
 Load plugin in Hardhat config:
 
 ```javascript
-require('hardhat-abi-exporter');
+require('hardhat-abi-gen');
 ```
 
 Add configuration under the `abiExporter` key:
