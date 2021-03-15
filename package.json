@@ -1,6 +1,6 @@
 {
   "name": "@symblox/hardhat-abi-gen",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "Export Solidity smart contract ABIs and generate their javascript objects on compilation",
   "keywords": [
