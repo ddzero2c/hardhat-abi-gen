@@ -1,8 +1,8 @@
 {
-  "name": "hardhat-abi-exporter",
-  "version": "2.2.0",
+  "name": "@symblox/hardhat-abi-gen",
+  "version": "0.1.0",
   "license": "MIT",
-  "description": "Export Ethereum smart contract ABIs on compilation",
+  "description": "Export Solidity smart contract ABIs and generate their javascript objects on compilation",
   "keywords": [
     "hardhat",
     "buidler",
@@ -16,8 +16,8 @@
     "wow",
     "dapps"
   ],
-  "repository": "https://github.com/ItsNickBarry/hardhat-abi-exporter",
-  "author": "Nick Barry",
+  "repository": "https://github.com/symblox/hardhat-abi-gen",
+  "author": "Symblox<symblox@protonmail.com>",
   "main": "index.js",
   "types": "index.d.ts",
   "peerDependencies": {
