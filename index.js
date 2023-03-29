@@ -49,7 +49,7 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     if (config.only.length && !config.only.some(m => fullName.match(m))) continue;
     if (config.except.length && config.except.some(m => fullName.match(m))) continue;
 
-    const { abi, sourceName, contractName } = await hre.artifacts.readArtifact(fullName);
+    const { abi, sourceName, contractName, bytecode } = await hre.artifacts.readArtifact(fullName);
 
     console.log(`Exported ${ contractName }`);
 
@@ -74,5 +74,14 @@ task(TASK_COMPILE, async function (args, hre, runSuper) {
     ) + '.js';
 
     fs.writeFileSync(abiJs, `export default ${ JSON.stringify(abi, null, config.spacing) };\n`, { flag: 'w' });
+
+    if (!bytecode.length) continue;
+    const abiBin = path.resolve(
+      outputDirectory,
+      config.flat ? '' : sourceName,
+      contractName
+    ) + '.bin';
+
+    fs.writeFileSync(abiBin, bytecode, { flag: 'w' });
   }
 });
